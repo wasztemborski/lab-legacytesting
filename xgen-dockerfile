@@ -1,0 +1,5 @@
+FROM "microsoft/dotnet"
+
+WORKDIR C:\\workdir
+
+ADD mock-service-app\\MockService\\bin\\Debug\\netcoreapp2.1 c:\\workdir

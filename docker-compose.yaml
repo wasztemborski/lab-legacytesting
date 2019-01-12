@@ -1,0 +1,60 @@
+
+
+version: "3.7"
+
+services: 
+  mssql:
+    build:
+      context: .
+      dockerfile: mssql-dockerfile
+    #stdin_open: true
+    #tty: true
+    environment:
+      SA_PASSWORD: "Password1"
+      ACCEPT_EULA: Y
+    ports:
+        - "1433:1433"
+    volumes:
+      - shared:c:\shared
+    networks:
+        - xgen-network 
+  xgen:
+    build:
+      context: .
+      dockerfile: xgen-dockerfile      
+    #stdin_open: true
+    #tty: true
+    environment:      
+      mockServiceMode: "file-file"
+      inFolder: C:\Wojtek\Azure\dockerfiles\data\in
+      outFolder: C:\Wojtek\Azure\dockerfiles\data\out      
+    volumes:
+      - shared:c:\shared
+    networks:
+        - xgen-network   
+    command:  dotnet MockService.dll
+  aspect:
+    build:
+      context: .
+      dockerfile: xgen-dockerfile      
+    #stdin_open: true
+    #tty: true
+    depends_on:
+      - mssql
+    environment:      
+      mockServiceMode: "sql-file"
+      inFolder: C:\Wojtek\Azure\dockerfiles\data\in
+      outFolder: C:\Wojtek\Azure\dockerfiles\data\out         
+      connectionString: "Data Source=mssql;Initial Catalog=xgen;User ID=sa;Password=Password1"
+      insertSqlCommand: "INSERT INTO dbo.Deal Select Shareclass, Amount, TradeDate from  dbo.DealQueue; Delete from dbo.DealQueue;"      
+      selectSqlCommand: "SELECT Shareclass, Amount, TradeDate FROM dbo.Deal;"
+    volumes:
+      - shared:c:\shared
+    networks:
+        - xgen-network   
+    command:  dotnet MockService.dll    
+    
+volumes:
+    shared:
+networks:
+    xgen-network:

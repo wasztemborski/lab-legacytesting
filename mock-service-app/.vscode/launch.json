@@ -1,0 +1,43 @@
+{
+   // Use IntelliSense to find out which attributes exist for C# debugging
+   // Use hover for the description of the existing attributes
+   // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+   "version": "0.2.0",
+   "configurations": [
+        {
+            "name": ".NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/MockService/bin/Debug/netcoreapp2.1/MockService.dll",
+            "args": [
+                "--mockServiceMode", "sql-file",
+                "--inFolder", "C:\\Wojtek\\Azure\\dockerfiles\\data\\in",
+                "--outFolder", "C:\\Wojtek\\Azure\\dockerfiles\\data\\out",
+                "--insertSqlCommand", "INSERT INTO dbo.Deal Select Shareclass, Amount, TradeDate from  dbo.DealQueue; Delete from dbo.DealQueue;",
+                "--selectSqlCommand", "SELECT Shareclass, Amount, TradeDate FROM dbo.Deal",
+                "--connectionString", "Data Source=127.0.0.1;Initial Catalog=xgen;User ID=sa;Password=Password1"                
+            ],
+            "env": {
+                "mockServiceMode":"sql-file",                
+                "inFolder":"C:\\Wojtek\\Azure\\dockerfiles\\data\\in",
+                "outFolder":"C:\\Wojtek\\Azure\\dockerfiles\\data\\out",
+                "insertSqlCommand":"INSERT INTO dbo.Deal Select Shareclass, Amount, TradeDate from  dbo.DealQueue; Delete from dbo.DealQueue;",
+                "selectSqlCommand":"SELECT Shareclass, Amount, TradeDate FROM dbo.Deal",
+                "connectionString":"Data Source=127.0.0.1;Initial Catalog=xgen;User ID=sa;Password=Password1"
+            },
+            "cwd": "${workspaceFolder}/MockService",
+            // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+        }
+    ,]
+}

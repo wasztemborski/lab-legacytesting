@@ -1,0 +1,7 @@
+FROM "microsoft/mssql-server-windows-developer:2016-sp1"
+
+LABEL maintainer "Wojciech Asztemborski"
+
+ADD db-backup c:\\db-backup
+
+EXPOSE 1433

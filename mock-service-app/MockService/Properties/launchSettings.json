@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MockService": {
+      "commandName": "Project",
+      "commandLineArgs": "--mockServiceMode  sql-file --inFolder \"..\\..\\..\\..\\..\\data\\in\" --outFolder \"..\\..\\..\\..\\..\\data\\out\" --insertSqlCommand \"INSERT INTO dbo.Deal Select Shareclass, Amount, TradeDate from  dbo.DealQueue; Delete from dbo.DealQueue;\" --selectSqlCommand \"SELECT Shareclass, Amount, TradeDate FROM dbo.Deal\" --connectionString \"Data Source=127.0.0.1;Initial Catalog=xgen;User ID=sa;Password=Password1\"    "
+    }
+  }
+}
